@@ -9,8 +9,10 @@
 
 const taskInput = document.getElementById('new-task'); //Add a new task.
 const addButton = document.querySelector('.add-button'); //add button
-const incompleteTaskHolder = document.getElementById('incompleteTasks'); //ul of #incompleteTasks
-const completedTasksHolder = document.getElementById('completed-tasks'); //completed-tasks
+const incompleteTaskHolder = document.querySelector(
+  '.incomplete-tasks-section'
+);
+const completedTasksHolder = document.querySelector('completed-tasks-section'); //completed-tasks
 
 //New task list item
 const createNewTaskElement = function (taskString) {
@@ -38,9 +40,9 @@ const createNewTaskElement = function (taskString) {
   editInput.className = 'task';
 
   editButton.innerText = 'Edit'; //innerText encodes special characters, HTML does not.
-  editButton.className = 'edit';
+  editButton.className = 'edit-button';
 
-  deleteButton.className = 'delete';
+  deleteButton.className = 'delete-button';
   deleteButtonImg.src = './remove.svg';
   deleteButton.appendChild(deleteButtonImg);
 
@@ -76,7 +78,7 @@ const editTask = function () {
 
   const editInput = listItem.querySelector('input[type=text]');
   const label = listItem.querySelector('label');
-  const editBtn = listItem.querySelector('.edit');
+  const editBtn = listItem.querySelector('.edit-button');
   const containsClass = listItem.classList.contains('edit-mode');
   //If class of the parent is .edit-mode
   if (containsClass) {
@@ -132,8 +134,8 @@ const bindTaskEvents = function (taskListItem, checkBoxEventHandler) {
   // console.log('bind list item events');
   //select ListItems children
   const checkBox = taskListItem.querySelector('input[type=checkbox]');
-  const editButton = taskListItem.querySelector('button.edit');
-  const deleteButton = taskListItem.querySelector('button.delete');
+  const editButton = taskListItem.querySelector('button.edit-button');
+  const deleteButton = taskListItem.querySelector('button.delete-button');
 
   //Bind editTask to edit button.
   editButton.onclick = editTask;
