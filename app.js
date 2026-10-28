@@ -75,7 +75,7 @@ const deleteTask = function () {
 
 const toggleTaskState = function () {
   const listItem = this.parentNode;
-  const isCompleted = listItem.querySelector('input[type=checkbox]').checked;
+  const isCompleted = listItem.querySelector('.task-checkbox').checked;
 
   isCompleted
     ? completedTasksHolder.appendChild(listItem)
@@ -86,13 +86,17 @@ const toggleTaskState = function () {
 addButton.addEventListener('click', addTask);
 
 const bindTaskEvents = function (taskListItem) {
-  const checkBox = taskListItem.querySelector('input[type=checkbox]');
-  const editButton = taskListItem.querySelector('button.edit-button');
-  const deleteButton = taskListItem.querySelector('button.delete-button');
+  taskListItem
+    .querySelector('.task-checkbox')
+    .addEventListener('click', toggleTaskState);
 
-  editButton.onclick = editTask;
-  deleteButton.onclick = deleteTask;
-  checkBox.onchange = toggleTaskState;
+  taskListItem
+    .querySelector('.edit-button')
+    .addEventListener('click', editTask);
+
+  taskListItem
+    .querySelector('.delete-button')
+    .addEventListener('click', deleteTask);
 };
 
 [...incompleteTaskHolder.children, ...completedTasksHolder.children].map(
