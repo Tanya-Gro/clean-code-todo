@@ -6,35 +6,11 @@ const incompleteTaskHolder = document.querySelector(
 const completedTasksHolder = document.querySelector('.completed-tasks-section');
 
 const createNewTaskElement = function (taskString) {
-  const listItem = document.createElement('li');
+  const template = document.getElementById('task-template');
+  const fragment = template.content.cloneNode(true);
+  const listItem = fragment.querySelector('li');
 
-  const checkBox = document.createElement('input');
-  const label = document.createElement('label');
-  const editInput = document.createElement('input');
-  const editButton = document.createElement('button');
-
-  const deleteButton = document.createElement('button');
-  const deleteButtonImg = document.createElement('img');
-
-  label.innerText = taskString;
-  label.className = 'task';
-
-  checkBox.type = 'checkbox';
-  editInput.type = 'text';
-  editInput.className = 'task';
-
-  editButton.innerText = 'Edit';
-  editButton.className = 'edit-button';
-
-  deleteButton.className = 'delete-button';
-  deleteButtonImg.src = './remove.svg';
-
-  deleteButton.appendChild(deleteButtonImg);
-  listItem.appendChild(checkBox);
-  listItem.appendChild(label);
-  listItem.appendChild(editInput);
-  listItem.appendChild(editButton);
-  listItem.appendChild(deleteButton);
+  listItem.querySelector('.task-text').textContent = taskString;
 
   return listItem;
 };
