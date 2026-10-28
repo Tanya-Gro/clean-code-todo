@@ -5,7 +5,7 @@ const incompleteTaskHolder = document.querySelector(
 );
 const completedTasksHolder = document.querySelector('.completed-tasks-section');
 
-const createNewTaskElement = function (taskString) {
+function createNewTaskElement(taskString) {
   const template = document.getElementById('task-template');
   const fragment = template.content.cloneNode(true);
   const listItem = fragment.querySelector('li');
@@ -13,18 +13,18 @@ const createNewTaskElement = function (taskString) {
   listItem.querySelector('.task-text').textContent = taskString;
 
   return listItem;
-};
+}
 
-const addTask = function () {
+function addTask() {
   if (!taskInput.value) return;
   const listItem = createNewTaskElement(taskInput.value);
   incompleteTaskHolder.appendChild(listItem);
   bindTaskEvents(listItem);
 
   taskInput.value = '';
-};
+}
 
-const editTask = function () {
+function editTask() {
   const listItem = this.parentNode;
 
   const editInput = listItem.querySelector('input[type=text]');
@@ -41,15 +41,15 @@ const editTask = function () {
   }
 
   listItem.classList.toggle('edit-mode');
-};
+}
 
-const deleteTask = function () {
+function deleteTask() {
   const listItem = this.parentNode;
   const ul = listItem.parentNode;
   ul.removeChild(listItem);
-};
+}
 
-const toggleTaskState = function () {
+function toggleTaskState() {
   const listItem = this.parentNode;
   const isCompleted = listItem.querySelector('.task-checkbox').checked;
 
@@ -57,11 +57,11 @@ const toggleTaskState = function () {
     ? completedTasksHolder.appendChild(listItem)
     : incompleteTaskHolder.appendChild(listItem);
   bindTaskEvents(listItem);
-};
+}
 
 addButton.addEventListener('click', addTask);
 
-const bindTaskEvents = function (taskListItem) {
+function bindTaskEvents(taskListItem) {
   taskListItem
     .querySelector('.task-checkbox')
     .addEventListener('click', toggleTaskState);
@@ -73,7 +73,7 @@ const bindTaskEvents = function (taskListItem) {
   taskListItem
     .querySelector('.delete-button')
     .addEventListener('click', deleteTask);
-};
+}
 
 [...incompleteTaskHolder.children, ...completedTasksHolder.children].map(
   (task) => bindTaskEvents(task)
