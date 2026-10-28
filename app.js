@@ -5,6 +5,24 @@ const incompleteTaskHolder = document.querySelector(
 );
 const completedTasksHolder = document.querySelector('.completed-tasks-section');
 
+const DEFAULT_DATA = [
+  { text: 'Pay Bills', isEdit: false, isCompleted: false },
+  { text: 'Go Shopping', isEdit: true, isCompleted: false },
+  { text: 'See the Doctor', isEdit: false, isCompleted: true },
+];
+
+DEFAULT_DATA.map((data) => {
+  const listItem = createNewTaskElement(data.text);
+
+  listItem.querySelector('.task-checkbox').checked = data.isCompleted;
+
+  if (data.isEdit) {
+    toggleEditedTask(listItem);
+  }
+
+  appendTask(listItem);
+});
+
 function createNewTaskElement(taskString) {
   const template = document.getElementById('task-template');
   const fragment = template.content.cloneNode(true);
@@ -26,9 +44,12 @@ function addTask() {
 
 function editTask() {
   const listItem = this.parentNode;
+  toggleEditedTask(listItem);
+}
 
-  const editInput = listItem.querySelector('input[type=text]');
-  const label = listItem.querySelector('label');
+function toggleEditedTask(listItem) {
+  const editInput = listItem.querySelector('.task-input');
+  const label = listItem.querySelector('.task-text');
   const editBtn = listItem.querySelector('.edit-button');
   const containsClass = listItem.classList.contains('edit-mode');
 
@@ -51,11 +72,16 @@ function deleteTask() {
 
 function toggleTaskState() {
   const listItem = this.parentNode;
+  appendTask(listItem);
+}
+
+function appendTask(listItem) {
   const isCompleted = listItem.querySelector('.task-checkbox').checked;
 
   isCompleted
     ? completedTasksHolder.appendChild(listItem)
     : incompleteTaskHolder.appendChild(listItem);
+
   bindTaskEvents(listItem);
 }
 
@@ -74,7 +100,3 @@ function bindTaskEvents(taskListItem) {
     .querySelector('.delete-button')
     .addEventListener('click', deleteTask);
 }
-
-[...incompleteTaskHolder.children, ...completedTasksHolder.children].map(
-  (task) => bindTaskEvents(task)
-);
