@@ -3,7 +3,7 @@ const addButton = document.querySelector('.add-button');
 const incompleteTaskHolder = document.querySelector(
   '.incomplete-tasks-section'
 );
-const completedTasksHolder = document.querySelector('completed-tasks-section');
+const completedTasksHolder = document.querySelector('.completed-tasks-section');
 
 const createNewTaskElement = function (taskString) {
   const listItem = document.createElement('li');
@@ -42,9 +42,8 @@ const createNewTaskElement = function (taskString) {
 const addTask = function () {
   if (!taskInput.value) return;
   const listItem = createNewTaskElement(taskInput.value);
-
   incompleteTaskHolder.appendChild(listItem);
-  bindTaskEvents(listItem, taskCompleted);
+  bindTaskEvents(listItem);
 
   taskInput.value = '';
 };
@@ -74,36 +73,32 @@ const deleteTask = function () {
   ul.removeChild(listItem);
 };
 
-const taskCompleted = function () {
+const toggleTaskState = function () {
   const listItem = this.parentNode;
-  completedTasksHolder.appendChild(listItem);
-  bindTaskEvents(listItem, taskIncomplete);
-};
+  const isCompleted = listItem.querySelector('input[type=checkbox]').checked;
 
-const taskIncomplete = function () {
-  //When the checkbox is unchecked
-  //Append the task list item to the #incompleteTasks.
-  const listItem = this.parentNode;
-  incompleteTaskHolder.appendChild(listItem);
-  bindTaskEvents(listItem, taskCompleted);
+  isCompleted
+    ? completedTasksHolder.appendChild(listItem)
+    : incompleteTaskHolder.appendChild(listItem);
+  bindTaskEvents(listItem);
 };
 
 addButton.addEventListener('click', addTask);
 
-const bindTaskEvents = function (taskListItem, checkBoxEventHandler) {
+const bindTaskEvents = function (taskListItem) {
   const checkBox = taskListItem.querySelector('input[type=checkbox]');
   const editButton = taskListItem.querySelector('button.edit-button');
   const deleteButton = taskListItem.querySelector('button.delete-button');
 
   editButton.onclick = editTask;
   deleteButton.onclick = deleteTask;
-  checkBox.onchange = checkBoxEventHandler;
+  checkBox.onchange = toggleTaskState;
 };
 
 for (let i = 0; i < incompleteTaskHolder.children.length; i++) {
-  bindTaskEvents(incompleteTaskHolder.children[i], taskCompleted);
+  bindTaskEvents(incompleteTaskHolder.children[i]);
 }
 
 for (let i = 0; i < completedTasksHolder.children.length; i++) {
-  bindTaskEvents(completedTasksHolder.children[i], taskIncomplete);
+  bindTaskEvents(completedTasksHolder.children[i]);
 }
