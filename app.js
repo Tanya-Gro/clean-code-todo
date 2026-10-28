@@ -1,9 +1,11 @@
 const taskInput = document.getElementById('new-task');
 const addButton = document.querySelector('.add-button');
-const incompleteTaskHolder = document.querySelector(
+const incompleteTasksSection = document.querySelector(
   '.incomplete-tasks-section'
 );
-const completedTasksHolder = document.querySelector('.completed-tasks-section');
+const completedTasksSection = document.querySelector(
+  '.completed-tasks-section'
+);
 
 const DEFAULT_DATA = [
   { text: 'Pay Bills', isEdit: false, isCompleted: false },
@@ -17,7 +19,7 @@ DEFAULT_DATA.map((data) => {
   listItem.querySelector('.task-checkbox').checked = data.isCompleted;
 
   if (data.isEdit) {
-    toggleEditedTask(listItem);
+    toggleEditMode(listItem);
   }
 
   appendTask(listItem);
@@ -36,18 +38,17 @@ function createNewTaskElement(taskString) {
 function addTask() {
   if (!taskInput.value) return;
   const listItem = createNewTaskElement(taskInput.value);
-  incompleteTaskHolder.appendChild(listItem);
-  bindTaskEvents(listItem);
+  appendTask(listItem);
 
   taskInput.value = '';
 }
 
 function editTask() {
   const listItem = this.parentNode;
-  toggleEditedTask(listItem);
+  toggleEditMode(listItem);
 }
 
-function toggleEditedTask(listItem) {
+function toggleEditMode(listItem) {
   const editInput = listItem.querySelector('.task-input');
   const label = listItem.querySelector('.task-text');
   const editBtn = listItem.querySelector('.edit-button');
@@ -79,8 +80,8 @@ function appendTask(listItem) {
   const isCompleted = listItem.querySelector('.task-checkbox').checked;
 
   isCompleted
-    ? completedTasksHolder.appendChild(listItem)
-    : incompleteTaskHolder.appendChild(listItem);
+    ? completedTasksSection.appendChild(listItem)
+    : incompleteTasksSection.appendChild(listItem);
 
   bindTaskEvents(listItem);
 }
