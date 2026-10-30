@@ -36,7 +36,7 @@ function createNewTaskElement(taskString) {
 }
 
 function addTask() {
-  if (!taskInput.value) return;
+  if (!taskInput.value.trim()) return;
   const listItem = createNewTaskElement(taskInput.value);
   appendTask(listItem);
 
